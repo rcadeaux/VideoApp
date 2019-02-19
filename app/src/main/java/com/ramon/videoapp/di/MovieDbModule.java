@@ -2,6 +2,7 @@ package com.ramon.videoapp.di;
 
 import android.app.Application;
 
+import com.ramon.videoapp.Session;
 import com.ramon.videoapp.webservices.configuration.InterceptorConfig;
 import com.ramon.videoapp.webservices.configuration.OkHttpManagerConfig;
 import com.ramon.videoapp.webservices.configuration.UnsafeHostnameVerifierConfig;
@@ -34,13 +35,13 @@ public class MovieDbModule {
 
     @Provides
     @Singleton
-    public MovieDbClient provideSolidApiClient(Application app, MovieDbApi client) {
+    public MovieDbClient provideMovieClient(Application app, MovieDbApi client) {
         return new MovieDbClient(app, client);
     }
 
     @Provides
     @Singleton
-    public MovieDbApi provideSolidApi(OkHttpManagerConfig okHttpManager, GsonConverterFactory factory, MovieDbEndpoint endpoint) {
+    public MovieDbApi provideMovieApi(OkHttpManagerConfig okHttpManager, GsonConverterFactory factory, MovieDbEndpoint endpoint) {
         return new Retrofit.Builder()
                 .client(okHttpManager.getOkHttpClient())
                 .addConverterFactory(factory)
@@ -51,7 +52,7 @@ public class MovieDbModule {
 
     @Provides
     @Singleton
-    public MovieDbEndpoint providesSolidEndpoint() {
+    public MovieDbEndpoint providesMovieEndpoint() {
         return new MovieDbEndpoint();
     }
 
@@ -65,7 +66,7 @@ public class MovieDbModule {
     @Provides
     @Singleton
     public OkHttpManagerConfig provideSolidOkHttpManager(UnsafeTrustManagerConfig unsafeTrustManager, CertificatePinner certificatePinner,
-                                                         InterceptorConfig interceptor,  UnsafeHostnameVerifierConfig unsafeHostnameVerifier) {
+                                                         InterceptorConfig interceptor, UnsafeHostnameVerifierConfig unsafeHostnameVerifier) {
         return new OkHttpManagerConfig(unsafeTrustManager, certificatePinner, interceptor, unsafeHostnameVerifier);
     }
 
@@ -95,6 +96,11 @@ public class MovieDbModule {
         return new InterceptorConfig();
     }
 
+    @Provides
+    @Singleton
+    public Session provideSession() {
+        return new Session();
+    }
 
 
 }
