@@ -73,7 +73,7 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
         ButterKnife.bind(this,view);
 
         movieDbClient.getDiscoverList(this,session.getPageNumber());
-        movies.setLayoutManager(new GridLayoutManager(getContext(),4));
+        movies.setLayoutManager(new GridLayoutManager(getContext(),3));
         movies.addOnScrollListener(scrollListener);
 
     }
@@ -114,7 +114,8 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     public void itemClicked(MovieResult movieResults) {
         if(getActivity()!=null) {
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container,MovieDetailsFragment.newInstance(gson.toJson(movieResults)), null)
+                    .add(R.id.container,MovieDetailsFragment.newInstance(gson.toJson(movieResults)))
+                    .addToBackStack("detailsFrag")
                     .commit();
         }
         else{

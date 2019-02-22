@@ -12,8 +12,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.container,DiscoverMovieFragment.newInstance(),"discover")
+                .add(R.id.container,DiscoverMovieFragment.newInstance())
+                .addToBackStack("discover")
                 .commit();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().getBackStackEntryCount()>1){
+            getSupportFragmentManager().popBackStack();
+        }else{
+            super.onBackPressed();
+        }
 
     }
 }
