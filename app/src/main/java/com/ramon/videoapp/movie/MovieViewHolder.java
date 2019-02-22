@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ramon.videoapp.R;
+import com.ramon.videoapp.webservices.movie.MovieDbEndpoint;
 import com.ramon.videoapp.webservices.movie.models.MovieResult;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +41,11 @@ class MovieViewHolder extends RecyclerView.ViewHolder {
     public void bind(MovieResult movieResult){
         this.movieResults=movieResult;
         moiveTitle.setText(movieResult.getTitle());
+        Picasso.get()
+                .load(MovieDbEndpoint.getMoiveImageEndpoint(movieResult.getPosterPath()))
+                .placeholder(R.drawable.ic_mood_black_24dp)
+                .error(R.drawable.image_download_failed)
+                .into(movieImage);
 
     }
 

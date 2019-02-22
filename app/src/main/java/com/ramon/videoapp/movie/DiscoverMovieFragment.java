@@ -114,7 +114,7 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     public void itemClicked(MovieResult movieResults) {
         if(getActivity()!=null) {
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(MovieDetailsFragment.newInstance(gson.toJson(movieResults)), null)
+                    .add(R.id.container,MovieDetailsFragment.newInstance(gson.toJson(movieResults)), null)
                     .commit();
         }
         else{
