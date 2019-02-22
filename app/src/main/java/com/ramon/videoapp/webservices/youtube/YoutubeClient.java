@@ -2,7 +2,6 @@ package com.ramon.videoapp.webservices.youtube;
 
 import android.app.Application;
 
-import com.ramon.videoapp.movie.MovieDetailsFragment;
 import com.ramon.videoapp.webservices.movie.models.MovieResult;
 import com.ramon.videoapp.webservices.youtube.callbacks.YoutubeCallbacks;
 import com.ramon.videoapp.webservices.youtube.models.YoutubeResponse;

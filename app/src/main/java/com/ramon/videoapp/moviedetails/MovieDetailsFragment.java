@@ -1,4 +1,4 @@
-package com.ramon.videoapp.movie;
+package com.ramon.videoapp.moviedetails;
 
 
 import android.os.Bundle;
@@ -26,6 +26,8 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
 
     @Inject
     YoutubeClient youtubeClient;
+
+    MovieResult result;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,7 +67,7 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MovieResult result= getMovieSelected();
+        result= getMovieSelected();
         youtubeClient.getYoutubeVideos(this,result);
     }
 

@@ -1,7 +1,7 @@
 package com.ramon.videoapp.di;
 
 import com.ramon.videoapp.movie.DiscoverMovieFragment;
-import com.ramon.videoapp.movie.MovieDetailsFragment;
+import com.ramon.videoapp.moviedetails.MovieDetailsFragment;
 
 import javax.inject.Singleton;
 
