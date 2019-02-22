@@ -9,7 +9,6 @@ import retrofit2.http.Query;
 
 public interface MovieDbApi {
     @GET("discover/movie")
-    @FormUrlEncoded
     Call<DiscoverResults> getDiscoverList(@Query("api_key") String apiKey,
                                           @Query("include_video") boolean includeVideo,
                                           @Query("page") int page);

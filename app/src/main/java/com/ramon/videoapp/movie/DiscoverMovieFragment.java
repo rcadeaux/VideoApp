@@ -9,10 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
 import com.ramon.videoapp.BaseApplication;
 import com.ramon.videoapp.R;
 import com.ramon.videoapp.Session;
+import com.ramon.videoapp.moviedetails.MovieDetailsFragment;
 import com.ramon.videoapp.webservices.movie.MovieDbClient;
 import com.ramon.videoapp.webservices.movie.callback.MovieListCallback;
 import com.ramon.videoapp.webservices.movie.models.DiscoverResults;
@@ -30,9 +33,14 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     MovieDbClient movieDbClient;
     @Inject
     Session session;
+    @Inject
+    Gson gson;
 
     @BindView(R.id.movie_rv)
     RecyclerView movies;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
     GridLayoutManager gridLayoutManager;
 
 
@@ -63,24 +71,22 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this,view);
-        showProgressDialog();
+
         movieDbClient.getDiscoverList(this,session.getPageNumber());
-        movies.setLayoutManager(new GridLayoutManager(getContext(),3));
+        movies.setLayoutManager(new GridLayoutManager(getContext(),4));
         movies.addOnScrollListener(scrollListener);
 
     }
 
-    private void showProgressDialog() {
-
-    }
-
     private void hideProgressDialog() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void onMovieSuccess(DiscoverResults body) {
         hideProgressDialog();
         if (!body.getMovieResults().isEmpty()) {
+            movies.setVisibility(View.VISIBLE);
             movies.setAdapter(new MovieAdapter(this, body.getMovieResults()));
         }else {
             showEmptyPage();
@@ -89,7 +95,7 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     }
 
     private void showEmptyPage() {
-
+    // show screen so that the user is not confused at no results being shown
     }
 
 
@@ -101,10 +107,20 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     }
 
     private void showErrorScreen() {
+        //error in the webservice, show message to prevent user anger
     }
 
     @Override
     public void itemClicked(MovieResult movieResults) {
+        if(getActivity()!=null) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(MovieDetailsFragment.newInstance(gson.toJson(movieResults)), null)
+                    .commit();
+        }
+        else{
+            //something went wrong show message
+
+        }
 
     }
 

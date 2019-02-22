@@ -2,6 +2,7 @@ package com.ramon.videoapp.di;
 
 import android.app.Application;
 
+import com.google.gson.Gson;
 import com.ramon.videoapp.Session;
 import com.ramon.videoapp.webservices.configuration.InterceptorConfig;
 import com.ramon.videoapp.webservices.configuration.OkHttpManagerConfig;
@@ -84,6 +85,12 @@ public class MovieDbModule {
         return new UnsafeTrustManagerConfig();
     }
 
+
+    @Provides
+    @Singleton
+    public Gson provideGson(){
+        return new Gson();
+    }
     @Provides
     @Singleton
     public UnsafeHostnameVerifierConfig providesUnsafeHostnameVerifier() {

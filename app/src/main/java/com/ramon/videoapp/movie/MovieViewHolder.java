@@ -32,7 +32,7 @@ class MovieViewHolder extends RecyclerView.ViewHolder {
     }
 
     public static RecyclerView.ViewHolder inflate(ViewGroup viewGroup, ItemClickedListener listner) {
-        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.discover_movie_vh,viewGroup);
+        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.discover_movie_vh,viewGroup,false);
         return new MovieViewHolder(view,listner);
     }
 
@@ -42,7 +42,7 @@ class MovieViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    @OnClick({R.id.movie_click_area,R.id.movie_click_area})
+    @OnClick({R.id.movie_click_area,R.id.more_click_area})
     public void itemClicked(){
         listener.itemClicked(movieResults);
     }
