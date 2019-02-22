@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.ramon.videoapp.webservices.movie.models.MovieResult;
 import com.ramon.videoapp.webservices.youtube.models.YoutubeItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDetailsAdapter extends RecyclerView.Adapter {
@@ -65,7 +66,24 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
         if (youtubeList != null) {
             return VIDEO_VH;
         } else {
+            youtubeList= new ArrayList<>();
+            youtubeList.add(new YoutubeItem());
             return LOADING_VH;
         }
+    }
+
+    public void addYoutubeVideo(List<YoutubeItem> items){
+        youtubeList.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void removeLoadingFooter(){
+        youtubeList.remove(0);
+        notifyItemRemoved(1);
+
+    }
+
+    public void showError() {
+
     }
 }

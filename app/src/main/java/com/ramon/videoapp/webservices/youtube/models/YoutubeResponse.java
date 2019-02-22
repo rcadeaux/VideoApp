@@ -23,7 +23,7 @@ public class YoutubeResponse {
     @SerializedName("pageInfo")
     @Expose
     private PageInfo pageInfo;
-    @SerializedName("youtubeItems")
+    @SerializedName("items")
     @Expose
     private List<YoutubeItem> youtubeItems = null;
 

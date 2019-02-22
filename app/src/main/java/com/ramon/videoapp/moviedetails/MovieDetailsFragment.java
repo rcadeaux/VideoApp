@@ -6,12 +6,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.ramon.videoapp.BaseApplication;
+import com.ramon.videoapp.BuildConfig;
 import com.ramon.videoapp.R;
 import com.ramon.videoapp.webservices.movie.models.MovieResult;
 import com.ramon.videoapp.webservices.youtube.YoutubeClient;
@@ -38,6 +40,7 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
     MovieResult result;
 
     private static final String SELECTED_MOVIE = "movie";
+    private MovieDetailsAdapter adapter;
 
 
     public MovieDetailsFragment() {
@@ -73,7 +76,8 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         result = getMovieSelected();
-        recyclerView.setAdapter(new MovieDetailsAdapter(result,null));
+        adapter=new MovieDetailsAdapter(result,null);
+        recyclerView.setAdapter(adapter);
         youtubeClient.getYoutubeVideos(this, result);
     }
 
@@ -91,11 +95,17 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
 
     @Override
     public void youtubeVideoList(YoutubeResponse body) {
+        if (BuildConfig.LOGGING_ENABLED){
+            Log.d("YOUTUBEVIDEO",body.getYoutubeItems().toString());
+        }
+        adapter.removeLoadingFooter();
+        adapter.addYoutubeVideo(body.getYoutubeItems());
 
     }
 
     @Override
     public void youtubeLookupFailed(int code, String message) {
+        adapter.showError();
 
     }
 }
