@@ -34,10 +34,6 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     RecyclerView movies;
     GridLayoutManager gridLayoutManager;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
 
     public DiscoverMovieFragment() {
         BaseApplication.getDaggerComponent().inject(this);
@@ -104,4 +100,9 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
 
         }
     };
+
+    @Override
+    public void itemClicked() {
+
+    }
 }

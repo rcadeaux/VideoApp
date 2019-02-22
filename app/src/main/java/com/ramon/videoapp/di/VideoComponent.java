@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {MovieDbModule.class})
+@Component(modules = {MovieDbModule.class,YoutubeModule.class})
 public interface VideoComponent {
     void inject(DiscoverMovieFragment discoverMovieFragment);
 }

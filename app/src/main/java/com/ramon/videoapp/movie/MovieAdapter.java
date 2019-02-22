@@ -1,30 +1,27 @@
 package com.ramon.videoapp.movie;
 
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.ramon.videoapp.webservices.movie.models.Result;
 
-import androidx.annotation.NonNull;
-import androidx.paging.PagedListAdapter;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
+public class MovieAdapter extends RecyclerView.Adapter {
 
-public class MovieAdapter extends PagedListAdapter<Result, RecyclerView.ViewHolder> {
-
-
-    protected MovieAdapter(@NonNull DiffUtil.ItemCallback<Result> diffCallback) {
-        super(diffCallback);
-    }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
     }
 }
