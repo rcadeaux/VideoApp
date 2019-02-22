@@ -16,9 +16,9 @@ public class DiscoverResults {
     @SerializedName("total_pages")
     @Expose
     private Integer totalPages;
-    @SerializedName("results")
+    @SerializedName("movieResults")
     @Expose
-    private List<Result> results = null;
+    private List<MovieResult> movieResults = null;
 
     public Integer getPage() {
         return page;
@@ -44,17 +44,17 @@ public class DiscoverResults {
         this.totalPages = totalPages;
     }
 
-    public List<Result> getResults() {
-        return results;
+    public List<MovieResult> getMovieResults() {
+        return movieResults;
     }
 
-    public void setResults(List<Result> results) {
-        this.results = results;
+    public void setMovieResults(List<MovieResult> movieResults) {
+        this.movieResults = movieResults;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("page", page).append("totalResults", totalResults).append("totalPages", totalPages).append("results", results).toString();
+        return new ToStringBuilder(this).append("page", page).append("totalResults", totalResults).append("totalPages", totalPages).append("movieResults", movieResults).toString();
     }
 
 }
