@@ -2,10 +2,10 @@ package com.ramon.videoapp.webservices.youtube;
 
 public class YoutubeEndpoint {
     public String getEndpoint() {
-        return null;
+        return "https://www.googleapis.com/youtube/v3";
     }
 
-    public String getWatchUrl(String videoId){
-        return null;
+    public static String getWatchUrl(String videoId){
+        return "https://www.youtube.com/watch?v="+videoId;
     }
 }

@@ -14,5 +14,6 @@ public interface YoutubeApi {
                                            @Query("part") String part,
                                            @Query("type") String type,
                                            @Query("q") String searchQuery,
-                                           @Query("videoCaption") String caption);
+                                           @Query("videoCaption") String caption,
+                                           @Query("maxResults") int maxResult);
 }
