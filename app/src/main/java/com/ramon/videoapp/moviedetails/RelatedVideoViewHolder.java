@@ -10,6 +10,15 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.ramon.videoapp.R;
 import com.ramon.videoapp.webservices.youtube.YoutubeEndpoint;
 import com.ramon.videoapp.webservices.youtube.models.YoutubeItem;
@@ -20,8 +29,10 @@ import butterknife.OnClick;
 
 class RelatedVideoViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.youtube_vid)
-    VideoView videoView;
-//    @BindView(R.id.link)
+    PlayerView videoView;
+    private SimpleExoPlayer player;
+
+    //    @BindView(R.id.link)
 //    TextView testLink;
     public RelatedVideoViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -34,15 +45,10 @@ class RelatedVideoViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(YoutubeItem youtubeItem) {
-//        testLink.setText(YoutubeEndpoint.getWatchUrl(youtubeItem.getId().getVideoId()));
-        MediaController mediaController= new MediaController(itemView.getContext());
-        mediaController.setMediaPlayer(videoView);
-        mediaController.setAnchorView(videoView);
-        videoView.setVideoURI( Uri.parse(YoutubeEndpoint.getWatchUrl(youtubeItem.getId().getVideoId())));
-    }
 
-    @OnClick(R.id.youtube_vid)
-    public void videoPlayer(){
 
     }
+
+
+
 }
