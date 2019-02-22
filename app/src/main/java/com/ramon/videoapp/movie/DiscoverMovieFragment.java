@@ -16,6 +16,7 @@ import com.ramon.videoapp.Session;
 import com.ramon.videoapp.webservices.movie.MovieDbClient;
 import com.ramon.videoapp.webservices.movie.callback.MovieListCallback;
 import com.ramon.videoapp.webservices.movie.models.DiscoverResults;
+import com.ramon.videoapp.webservices.movie.models.MovieResult;
 
 import javax.inject.Inject;
 
@@ -79,12 +80,31 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     @Override
     public void onMovieSuccess(DiscoverResults body) {
         hideProgressDialog();
+        if (!body.getMovieResults().isEmpty()) {
+            movies.setAdapter(new MovieAdapter(this, body.getMovieResults()));
+        }else {
+            showEmptyPage();
+        }
+
+    }
+
+    private void showEmptyPage() {
 
     }
 
 
     @Override
     public void onMovieFailure(int code, String message) {
+        hideProgressDialog();
+        showErrorScreen();
+
+    }
+
+    private void showErrorScreen() {
+    }
+
+    @Override
+    public void itemClicked(MovieResult movieResults) {
 
     }
 
@@ -100,9 +120,4 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
 
         }
     };
-
-    @Override
-    public void itemClicked() {
-
-    }
 }
