@@ -15,11 +15,11 @@ public class YoutubeClient {
     private final Application app;
     private final YoutubeApi client;
 
-   public static final String API_KEY = "AIzaSyBdDTZNgpEcT-akxeV6M7oURAdZcK-UXmI";
-    static final String PART = "snippet";
-    static final String TYPE = "video";
-    static final String CAPTION = "closedCaption";
-    static final int MAX_RESULT = 5;
+   private static final String API_KEY = "AIzaSyBdDTZNgpEcT-akxeV6M7oURAdZcK-UXmI";
+    private static final String PART = "snippet";
+    private static final String TYPE = "video";
+    private static final String CAPTION = "closedCaption";
+    private static final int MAX_RESULT = 5;
 
     public YoutubeClient(Application app, YoutubeApi client) {
         this.app = app;

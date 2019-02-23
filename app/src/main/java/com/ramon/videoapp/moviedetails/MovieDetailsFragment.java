@@ -76,7 +76,7 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         result = getMovieSelected();
-        adapter=new MovieDetailsAdapter(result,null);
+        adapter = new MovieDetailsAdapter(result, null);
         recyclerView.setAdapter(adapter);
         youtubeClient.getYoutubeVideos(this, result);
     }
@@ -84,7 +84,7 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
 
     //method to get the selected out of the argument bundle, if the string is empty, a new object is returned
     private MovieResult getMovieSelected() {
-        String resultString = getArguments().getString(SELECTED_MOVIE, "");
+        String resultString = getArguments() != null ? getArguments().getString(SELECTED_MOVIE, "") : "";
         MovieResult result = new MovieResult();
         if (!StringUtils.isEmpty(resultString)) {
             result = gson.fromJson(resultString, MovieResult.class);
@@ -95,8 +95,8 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
 
     @Override
     public void youtubeVideoList(YoutubeResponse body) {
-        if (BuildConfig.LOGGING_ENABLED){
-            Log.d("YOUTUBEVIDEO",body.getYoutubeItems().toString());
+        if (BuildConfig.LOGGING_ENABLED) {
+            Log.d("YOUTUBEVIDEO", body.getYoutubeItems().toString());
         }
         adapter.removeLoadingFooter();
         adapter.addYoutubeVideo(body.getYoutubeItems());

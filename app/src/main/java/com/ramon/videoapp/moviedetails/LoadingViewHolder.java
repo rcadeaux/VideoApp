@@ -8,18 +8,18 @@ import android.view.ViewGroup;
 
 import com.ramon.videoapp.R;
 
-public class LoadingViewHolder extends RecyclerView.ViewHolder {
+class LoadingViewHolder extends RecyclerView.ViewHolder {
 
-    public LoadingViewHolder(@NonNull View itemView) {
+    private LoadingViewHolder(@NonNull View itemView) {
         super(itemView);
     }
 
-    public static RecyclerView.ViewHolder inflate(ViewGroup viewGroup) {
+    static RecyclerView.ViewHolder inflate(ViewGroup viewGroup) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loading_vh, viewGroup, false);
         return new LoadingViewHolder(view);
     }
 
-    public void bind() {
+    void bind() {
 
     }
 }

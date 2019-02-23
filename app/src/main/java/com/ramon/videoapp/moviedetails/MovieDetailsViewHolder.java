@@ -25,17 +25,17 @@ class MovieDetailsViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.movie_title)
     TextView movieTitle;
 
-    public MovieDetailsViewHolder(@NonNull View itemView) {
+    private MovieDetailsViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this,itemView);
     }
 
-    public static RecyclerView.ViewHolder inflate(ViewGroup viewGroup) {
+    static RecyclerView.ViewHolder inflate(ViewGroup viewGroup) {
         View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.movie_details_vh,viewGroup,false);
         return  new MovieDetailsViewHolder(view);
     }
 
-    public void bind(MovieResult movieResult) {
+    void bind(MovieResult movieResult) {
         Picasso.get()
                 .load(MovieDbEndpoint.getMoiveImageEndpoint(movieResult.getPosterPath()))
                 .placeholder(R.drawable.ic_mood_black_24dp)

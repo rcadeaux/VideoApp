@@ -27,18 +27,18 @@ class MovieViewHolder extends RecyclerView.ViewHolder {
     private final ItemClickedListener listener;
     private MovieResult movieResults;
 
-    public MovieViewHolder(@NonNull View itemView, ItemClickedListener listner) {
+    private MovieViewHolder(@NonNull View itemView, ItemClickedListener listner) {
         super(itemView);
         this.listener=listner;
         ButterKnife.bind(this,itemView);
     }
 
-    public static RecyclerView.ViewHolder inflate(ViewGroup viewGroup, ItemClickedListener listner) {
+    static RecyclerView.ViewHolder inflate(ViewGroup viewGroup, ItemClickedListener listner) {
         View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.discover_movie_vh,viewGroup,false);
         return new MovieViewHolder(view,listner);
     }
 
-    public void bind(MovieResult movieResult){
+    void bind(MovieResult movieResult){
         this.movieResults=movieResult;
         moiveTitle.setText(movieResult.getTitle());
         Picasso.get()
@@ -50,7 +50,7 @@ class MovieViewHolder extends RecyclerView.ViewHolder {
     }
 
     @OnClick({R.id.movie_click_area,R.id.more_click_area})
-    public void itemClicked(){
+    void itemClicked(){
         listener.itemClicked(movieResults);
     }
 }

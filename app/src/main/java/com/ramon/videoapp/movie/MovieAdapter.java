@@ -16,7 +16,7 @@ public class MovieAdapter extends RecyclerView.Adapter {
     private final ItemClickedListener listner;
     private final List<MovieResult> movieResults;
 
-    public MovieAdapter(ItemClickedListener listener, List<MovieResult> movieResults) {
+    MovieAdapter(ItemClickedListener listener, List<MovieResult> movieResults) {
         this.listner=listener;
         this.movieResults=movieResults;
     }

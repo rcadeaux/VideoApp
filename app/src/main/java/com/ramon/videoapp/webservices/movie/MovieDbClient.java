@@ -1,6 +1,7 @@
 package com.ramon.videoapp.webservices.movie;
 
 import android.app.Application;
+import android.support.annotation.NonNull;
 
 import com.ramon.videoapp.webservices.movie.callback.MovieListCallback;
 import com.ramon.videoapp.webservices.movie.models.DiscoverResults;
@@ -14,7 +15,7 @@ public class MovieDbClient {
 
     private final Application app;
     private final MovieDbApi client;
-    public static final String API_KEY="656a890baf30770abeb36adae862c19e";
+    private static final String API_KEY="656a890baf30770abeb36adae862c19e";
 
     public MovieDbClient(Application app, MovieDbApi client) {
         this.app=app;
@@ -24,7 +25,7 @@ public class MovieDbClient {
     public void getDiscoverList(final MovieListCallback callback, int page){
         client.getDiscoverList(API_KEY,true,page).enqueue(new Callback<DiscoverResults>() {
             @Override
-            public void onResponse(Call<DiscoverResults> call, Response<DiscoverResults> response) {
+            public void onResponse(@NonNull  Call<DiscoverResults> call, @NonNull Response<DiscoverResults> response) {
                 if (response.isSuccessful()){
                     callback.onMovieSuccess(response.body());
                 }else {
@@ -33,7 +34,7 @@ public class MovieDbClient {
             }
 
             @Override
-            public void onFailure(Call<DiscoverResults> call, Throwable t) {
+            public void onFailure(@NonNull Call<DiscoverResults> call, @NonNull Throwable t) {
                 callback.onMovieFailure(-1,t.getMessage());
 
             }

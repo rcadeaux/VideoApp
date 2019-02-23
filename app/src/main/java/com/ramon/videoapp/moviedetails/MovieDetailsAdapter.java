@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDetailsAdapter extends RecyclerView.Adapter {
-    static final int INFO_VH = 0;
-    static final int VIDEO_VH = 1;
+    private static final int INFO_VH = 0;
+    private static final int VIDEO_VH = 1;
     private static final int LOADING_VH = 2;
     private List<YoutubeItem> youtubeList;
     private MovieResult movieResult;
 
-    public MovieDetailsAdapter(MovieResult result, List<YoutubeItem> youtubeList) {
+    MovieDetailsAdapter(MovieResult result, List<YoutubeItem> youtubeList) {
         this.movieResult = result;
         this.youtubeList = youtubeList;
     }
@@ -25,7 +25,7 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        RecyclerView.ViewHolder holder = null;
+        RecyclerView.ViewHolder holder;
         if (viewType == INFO_VH) {
             holder = MovieDetailsViewHolder.inflate(viewGroup);
         } else if (viewType == VIDEO_VH) {
@@ -72,18 +72,18 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public void addYoutubeVideo(List<YoutubeItem> items){
+     void addYoutubeVideo(List<YoutubeItem> items){
         youtubeList.addAll(items);
         notifyDataSetChanged();
     }
 
-    public void removeLoadingFooter(){
+     void removeLoadingFooter(){
         youtubeList.remove(0);
         notifyItemRemoved(1);
 
     }
 
-    public void showError() {
+     void showError() {
 
     }
 }
