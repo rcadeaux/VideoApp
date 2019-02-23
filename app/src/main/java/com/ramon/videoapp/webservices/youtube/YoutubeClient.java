@@ -15,7 +15,7 @@ public class YoutubeClient {
     private final Application app;
     private final YoutubeApi client;
 
-    static final String API_KEY = "AIzaSyBdDTZNgpEcT-akxeV6M7oURAdZcK-UXmI";
+   public static final String API_KEY = "AIzaSyBdDTZNgpEcT-akxeV6M7oURAdZcK-UXmI";
     static final String PART = "snippet";
     static final String TYPE = "video";
     static final String CAPTION = "closedCaption";
