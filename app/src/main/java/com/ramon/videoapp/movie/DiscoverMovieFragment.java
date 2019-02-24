@@ -53,6 +53,8 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     ConstraintLayout errorView;
 
     GridLayoutManager gridLayoutManager;
+    private MovieAdapter adapter;
+    private Integer maxPage;
 
 
     public DiscoverMovieFragment() {
@@ -72,7 +74,7 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_blank, container, false);
@@ -96,11 +98,20 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     @Override
     public void onMovieSuccess(DiscoverResults body) {
         hideProgressDialog();
-        if (!body.getMovieResults().isEmpty()) {
-            movies.setVisibility(View.VISIBLE);
-            movies.setAdapter(new MovieAdapter(this, body.getMovieResults()));
+        if (session.getLoadingMoreData()) {
+            session.setLoadingMoreData(false);
+            adapter.addAllMovies(body.getMovieResults());
         } else {
-            showEmptyPage();
+            if (!body.getMovieResults().isEmpty()) {
+                movies.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
+                errorView.setVisibility(View.GONE);
+                adapter = new MovieAdapter(this, body.getMovieResults());
+                movies.setAdapter(adapter);
+                maxPage = body.getTotalPages();
+            } else {
+                showEmptyPage();
+            }
         }
 
     }
@@ -135,7 +146,7 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
                     .addToBackStack("detailsFrag")
                     .commit();
         } else {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext() != null ? getContext() : getActivity());
             alertDialog.setMessage(getString(R.string.something_bad_happened));
             alertDialog.setPositiveButton(getString(R.string.positive_btn), (dialogInterface, i) -> dialogInterface.dismiss());
             alertDialog.create().show();
@@ -146,7 +157,7 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     }
 
     @OnClick(R.id.retry_btn_clicked)
-    public void retryClicked(){
+    public void retryClicked() {
         movieDbClient.getDiscoverList(this, session.getPageNumber());
     }
 
@@ -159,7 +170,22 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
         @Override
         public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
+            GridLayoutManager linearLayoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
 
+            if (linearLayoutManager != null && movies.getAdapter() != null &&
+                    session.getPageNumber() <= maxPage && linearLayoutManager.findLastCompletelyVisibleItemPosition() == movies.getAdapter().getItemCount() - 1) {
+                //bottom of list!
+                loadMore();
+
+            }
         }
     };
+
+    private void loadMore() {
+        session.incrementPageNumber();
+        progressBar.setVisibility(View.VISIBLE);
+        session.setLoadingMoreData(true);
+        movieDbClient.getDiscoverList(this, session.getPageNumber());
+
+    }
 }

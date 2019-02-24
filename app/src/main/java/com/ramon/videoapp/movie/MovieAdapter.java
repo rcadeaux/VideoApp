@@ -14,11 +14,11 @@ public class MovieAdapter extends RecyclerView.Adapter {
 
 
     private final ItemClickedListener listner;
-    private final List<MovieResult> movieResults;
+    private final List<MovieResult> movieResultsMaster;
 
     MovieAdapter(ItemClickedListener listener, List<MovieResult> movieResults) {
         this.listner=listener;
-        this.movieResults=movieResults;
+        this.movieResultsMaster=movieResults;
     }
 
     @NonNull
@@ -29,13 +29,18 @@ public class MovieAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        if (!movieResults.isEmpty()) {
-            ((MovieViewHolder) viewHolder).bind(movieResults.get(i));
+        if (!movieResultsMaster.isEmpty()) {
+            ((MovieViewHolder) viewHolder).bind(movieResultsMaster.get(i));
         }
     }
 
     @Override
     public int getItemCount() {
-        return movieResults.size();
+        return movieResultsMaster.size();
+    }
+
+    void addAllMovies(List<MovieResult> movieResults) {
+        movieResultsMaster.addAll(movieResults);
+        notifyItemInserted(movieResultsMaster.size()-movieResults.size()-1);
     }
 }
