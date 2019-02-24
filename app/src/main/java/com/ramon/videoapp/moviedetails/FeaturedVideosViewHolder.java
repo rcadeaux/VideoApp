@@ -2,6 +2,7 @@ package com.ramon.videoapp.moviedetails;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,7 @@ class FeaturedVideosViewHolder extends RecyclerView.ViewHolder {
 
     private final YoutubeItemClicked clickListener;
     @BindView(R.id.related_click_area)
-    LinearLayout clickArea;
+    ConstraintLayout clickArea;
     @BindView(R.id.youtube_title)
     TextView youtubeTitle;
     @BindView(R.id.thumbnail_preview)
