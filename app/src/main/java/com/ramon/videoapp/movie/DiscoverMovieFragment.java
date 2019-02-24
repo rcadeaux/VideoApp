@@ -1,9 +1,13 @@
 package com.ramon.videoapp.movie;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,13 +25,16 @@ import com.ramon.videoapp.webservices.movie.callback.MovieListCallback;
 import com.ramon.videoapp.webservices.movie.models.DiscoverResults;
 import com.ramon.videoapp.webservices.movie.models.MovieResult;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
-public class DiscoverMovieFragment extends Fragment implements MovieListCallback,ItemClickedListener {
+public class DiscoverMovieFragment extends Fragment implements MovieListCallback, ItemClickedListener {
 
     @Inject
     MovieDbClient movieDbClient;
@@ -40,6 +47,10 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     RecyclerView movies;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.empty_view)
+    ConstraintLayout emptyView;
+    @BindView(R.id.error_view)
+    ConstraintLayout errorView;
 
     GridLayoutManager gridLayoutManager;
 
@@ -58,7 +69,7 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,10 +81,10 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
 
-        movieDbClient.getDiscoverList(this,session.getPageNumber());
-        movies.setLayoutManager(new GridLayoutManager(getContext(),3));
+        movieDbClient.getDiscoverList(this, session.getPageNumber());
+        movies.setLayoutManager(new GridLayoutManager(getContext(), 3));
         movies.addOnScrollListener(scrollListener);
 
     }
@@ -88,14 +99,16 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
         if (!body.getMovieResults().isEmpty()) {
             movies.setVisibility(View.VISIBLE);
             movies.setAdapter(new MovieAdapter(this, body.getMovieResults()));
-        }else {
+        } else {
             showEmptyPage();
         }
 
     }
 
     private void showEmptyPage() {
-    // show screen so that the user is not confused at no results being shown
+        emptyView.setVisibility(View.VISIBLE);
+        errorView.setVisibility(View.GONE);
+        movies.setVisibility(View.GONE);
     }
 
 
@@ -108,24 +121,36 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
 
     private void showErrorScreen() {
         //error in the webservice, show message to prevent user anger
+        emptyView.setVisibility(View.GONE);
+        errorView.setVisibility(View.VISIBLE);
+        movies.setVisibility(View.GONE);
+
     }
 
     @Override
     public void itemClicked(MovieResult movieResults) {
-        if(getActivity()!=null) {
+        if (getActivity() != null) {
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container,MovieDetailsFragment.newInstance(gson.toJson(movieResults)))
+                    .add(R.id.container, MovieDetailsFragment.newInstance(gson.toJson(movieResults)))
                     .addToBackStack("detailsFrag")
                     .commit();
-        }
-        else{
-            //something went wrong show message
+        } else {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            alertDialog.setMessage(getString(R.string.something_bad_happened));
+            alertDialog.setPositiveButton(getString(R.string.positive_btn), (dialogInterface, i) -> dialogInterface.dismiss());
+            alertDialog.create().show();
+
 
         }
 
     }
 
-    protected RecyclerView.OnScrollListener scrollListener= new RecyclerView.OnScrollListener() {
+    @OnClick(R.id.retry_btn_clicked)
+    public void retryClicked(){
+        movieDbClient.getDiscoverList(this, session.getPageNumber());
+    }
+
+    protected RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);

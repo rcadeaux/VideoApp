@@ -13,6 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <include
+        layout="@layout/empty_screen"
+        />
+
+
+    <include
+        layout="@layout/error_screen"
+        />
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/movie_rv"
         android:layout_width="match_parent"
