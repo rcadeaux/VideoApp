@@ -41,7 +41,7 @@ class RelatedVideoViewHolder extends RecyclerView.ViewHolder {
             YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
 
 
-            manager.beginTransaction().add(R.id.youtube_layout, youTubePlayerFragment).commit();
+            manager.beginTransaction().replace(R.id.youtube_layout, youTubePlayerFragment).commit();
 
 
             youTubePlayerFragment.initialize(YoutubeClient.API_KEY, new YouTubePlayer.OnInitializedListener() {
@@ -51,11 +51,11 @@ class RelatedVideoViewHolder extends RecyclerView.ViewHolder {
                     try {
                         if (!wasRestored) {
                             player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
-                            player.cueVideo(youtubeItem.getId().getVideoId());
+                            player.loadVideo(youtubeItem.getId().getVideoId());
 
                         }
                     } catch (NullPointerException e){
-                        player.cueVideo("dQw4w9WgXcQ");
+                        player.loadVideo("dQw4w9WgXcQ");
                     }
 
                 }
@@ -77,6 +77,7 @@ class RelatedVideoViewHolder extends RecyclerView.ViewHolder {
 
 
     }
+
 
 
 }
