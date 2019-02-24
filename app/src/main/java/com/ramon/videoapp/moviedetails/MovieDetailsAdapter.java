@@ -1,6 +1,7 @@
 package com.ramon.videoapp.moviedetails;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
@@ -14,12 +15,14 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
     private static final int INFO_VH = 0;
     private static final int VIDEO_VH = 1;
     private static final int LOADING_VH = 2;
+    private final FragmentManager manager;
     private List<YoutubeItem> youtubeList;
     private MovieResult movieResult;
 
-    MovieDetailsAdapter(MovieResult result, List<YoutubeItem> youtubeList) {
+    MovieDetailsAdapter(MovieResult result, List<YoutubeItem> youtubeList, FragmentManager childFragmentManager) {
         this.movieResult = result;
         this.youtubeList = youtubeList;
+        this.manager=childFragmentManager;
     }
 
     @NonNull
@@ -42,7 +45,7 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
         if (viewHolder instanceof MovieDetailsViewHolder) {
             ((MovieDetailsViewHolder) viewHolder).bind(movieResult);
         } else if (viewHolder instanceof RelatedVideoViewHolder) {
-            ((RelatedVideoViewHolder) viewHolder).bind(youtubeList.get(position-1));
+            ((RelatedVideoViewHolder) viewHolder).bind(youtubeList.get(position-1),manager);
         } else {
             ((LoadingViewHolder) viewHolder).bind();
         }

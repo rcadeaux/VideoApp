@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.youtube.player.YouTubePlayerFragment;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.gson.Gson;
 import com.ramon.videoapp.BaseApplication;
 import com.ramon.videoapp.BuildConfig;
@@ -44,6 +46,7 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
 
 
     public MovieDetailsFragment() {
+        super();
         BaseApplication.getDaggerComponent().inject(this);
     }
 
@@ -76,7 +79,7 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         result = getMovieSelected();
-        adapter = new MovieDetailsAdapter(result, null);
+        adapter=new MovieDetailsAdapter(result,null,getChildFragmentManager());
         recyclerView.setAdapter(adapter);
         youtubeClient.getYoutubeVideos(this, result);
     }
@@ -95,8 +98,8 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
 
     @Override
     public void youtubeVideoList(YoutubeResponse body) {
-        if (BuildConfig.LOGGING_ENABLED) {
-            Log.d("YOUTUBEVIDEO", body.getYoutubeItems().toString());
+        if (BuildConfig.LOGGING_ENABLED){
+            Log.d("YOUTUBEVIDEO",body.getYoutubeItems().toString());
         }
         adapter.removeLoadingFooter();
         adapter.addYoutubeVideo(body.getYoutubeItems());
@@ -105,6 +108,7 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
 
     @Override
     public void youtubeLookupFailed(int code, String message) {
+        adapter.removeLoadingFooter();
         adapter.showError();
 
     }
