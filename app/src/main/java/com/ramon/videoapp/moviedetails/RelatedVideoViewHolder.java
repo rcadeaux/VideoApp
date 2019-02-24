@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.ramon.videoapp.BuildConfig;
 import com.ramon.videoapp.R;
 import com.ramon.videoapp.webservices.youtube.YoutubeClient;
 import com.ramon.videoapp.webservices.youtube.models.YoutubeItem;
@@ -34,30 +35,44 @@ class RelatedVideoViewHolder extends RecyclerView.ViewHolder {
 
 
     void bind(@NonNull final YoutubeItem youtubeItem, FragmentManager manager) {
-        YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
+        try {
 
 
-       manager.beginTransaction().add(R.id.youtube_layout, youTubePlayerFragment).commit();
+            YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
 
 
-        youTubePlayerFragment.initialize(YoutubeClient.API_KEY, new YouTubePlayer.OnInitializedListener() {
+            manager.beginTransaction().add(R.id.youtube_layout, youTubePlayerFragment).commit();
 
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player, boolean wasRestored) {
-                if (!wasRestored) {
-                    player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
-                    player.cueVideo(youtubeItem.getId().getVideoId());
+
+            youTubePlayerFragment.initialize(YoutubeClient.API_KEY, new YouTubePlayer.OnInitializedListener() {
+
+                @Override
+                public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player, boolean wasRestored) {
+                    try {
+                        if (!wasRestored) {
+                            player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+                            player.cueVideo(youtubeItem.getId().getVideoId());
+
+                        }
+                    } catch (NullPointerException e){
+                        player.cueVideo("dQw4w9WgXcQ");
+                    }
 
                 }
+
+                @Override
+                public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult error) {
+                    // YouTube error
+                    String errorMessage = error.toString();
+                    Toast.makeText(itemView.getContext(), errorMessage, Toast.LENGTH_LONG).show();
+                    Log.d("errorMessage:", errorMessage);
+                }
+            });
+        }catch (NullPointerException e){
+            if (BuildConfig.LOGGING_ENABLED){
+                e.printStackTrace();
             }
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult error) {
-                // YouTube error
-                String errorMessage = error.toString();
-                Toast.makeText(itemView.getContext(), errorMessage, Toast.LENGTH_LONG).show();
-                Log.d("errorMessage:", errorMessage);
-            }
-        });
+        }
 
 
 
