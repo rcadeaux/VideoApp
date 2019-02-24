@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ramon.videoapp.BuildConfig;
 import com.ramon.videoapp.R;
 import com.ramon.videoapp.webservices.youtube.models.YoutubeItem;
 import com.squareup.picasso.Picasso;
@@ -41,15 +42,22 @@ class FeaturedVideosViewHolder extends RecyclerView.ViewHolder {
     }
 
     void bind(@NonNull YoutubeItem item, boolean nowPlaying) {
-        this.youtubeItem = item;
-        clickArea.setBackgroundColor(nowPlaying ? itemView.getResources().getColor(R.color.colorPrimary, itemView.getResources().newTheme()) : Color.WHITE);
-        youtubeTitle.setText(item.getSnippet().getTitle());
-        youtubeTitle.setTextColor(nowPlaying ? Color.WHITE : Color.BLACK);
-        Picasso.get()
-                .load(item.getSnippet().getThumbnails().getDefault().getUrl())
-                .placeholder(R.drawable.ic_mood_black_24dp)
-                .error(R.drawable.image_download_failed)
-                .into(posterImage);
+        try {
+
+            this.youtubeItem = item;
+            clickArea.setBackgroundColor(nowPlaying ? itemView.getResources().getColor(R.color.colorPrimary, itemView.getResources().newTheme()) : Color.WHITE);
+            youtubeTitle.setText(item != null ? item.getSnippet().getTitle() : "Unable to Load Title");
+            youtubeTitle.setTextColor(nowPlaying ? Color.WHITE : Color.BLACK);
+            Picasso.get()
+                    .load(item.getSnippet().getThumbnails().getDefault().getUrl())
+                    .placeholder(R.drawable.ic_mood_black_24dp)
+                    .error(R.drawable.image_download_failed)
+                    .into(posterImage);
+        }catch (NullPointerException e){
+            if (BuildConfig.LOGGING_ENABLED){
+                e.printStackTrace();
+            }
+        }
 
     }
 
