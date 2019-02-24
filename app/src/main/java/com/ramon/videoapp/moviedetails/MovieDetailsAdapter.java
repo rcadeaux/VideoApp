@@ -11,7 +11,7 @@ import com.ramon.videoapp.webservices.youtube.models.YoutubeItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDetailsAdapter extends RecyclerView.Adapter {
+class MovieDetailsAdapter extends RecyclerView.Adapter {
     private static final int INFO_VH = 0;
     private static final int VIDEO_VH = 1;
     private static final int LOADING_VH = 2;
@@ -20,7 +20,7 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
     private final YoutubeItemClicked clickListener;
     private List<YoutubeItem> youtubeList;
     private MovieResult movieResult;
-    YoutubeItem itemclicked = null;
+    private YoutubeItem itemClicked;
 
     MovieDetailsAdapter(MovieResult result, List<YoutubeItem> youtubeList, FragmentManager childFragmentManager,YoutubeItemClicked youtubeItemClicked) {
         this.movieResult = result;
@@ -51,13 +51,13 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
         if (viewHolder instanceof MovieDetailsViewHolder) {
             ((MovieDetailsViewHolder) viewHolder).bind(movieResult);
         } else if (viewHolder instanceof RelatedVideoViewHolder) {
-            ((RelatedVideoViewHolder) viewHolder).bind(itemclicked, manager);
+            ((RelatedVideoViewHolder) viewHolder).bind(itemClicked, manager);
         } else if (viewHolder instanceof LoadingViewHolder){
             ((LoadingViewHolder) viewHolder).bind();
         } else {
             YoutubeItem item=youtubeList.get(position - 2);
 
-            ((FeaturedVideosViewHolder)viewHolder).bind(item,item.equals(itemclicked));
+            ((FeaturedVideosViewHolder)viewHolder).bind(item,item.equals(itemClicked));
         }
 
     }
@@ -92,7 +92,7 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
 
     void addYoutubeVideo(List<YoutubeItem> items) {
         youtubeList.addAll(items);
-        itemclicked = items.get(0);
+        itemClicked = items.get(0);
         notifyDataSetChanged();
     }
 
@@ -107,7 +107,7 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
     }
 
     public void refresh(YoutubeItem item) {
-        itemclicked = item;
+        itemClicked = item;
         notifyDataSetChanged();
 
     }

@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class MovieDbModule {
 
-    private Application app;
+    private final Application app;
 
     public MovieDbModule(Application app) {
         this.app = app;

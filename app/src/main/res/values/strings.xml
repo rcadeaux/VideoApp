@@ -2,9 +2,10 @@
     <string name="app_name">VideoApp</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="something_bad_happened">Something Really Bad Happened. Please select another movie.</string>
     <string name="positive_btn">Got It</string>
     <string name="retry_error_message">Oops looks like something went wrong. Please try again later</string>
     <string name="retry">Retry</string>
+    <string name="empty_message">No items are available to show at this moment,</string>
+    <string name="related_media_header">Related Media</string>
 </resources>

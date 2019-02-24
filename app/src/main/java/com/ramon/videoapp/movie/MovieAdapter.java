@@ -9,22 +9,21 @@ import com.ramon.videoapp.webservices.movie.models.MovieResult;
 
 import java.util.List;
 
+class MovieAdapter extends RecyclerView.Adapter {
 
-public class MovieAdapter extends RecyclerView.Adapter {
 
-
-    private final ItemClickedListener listner;
+    private final ItemClickedListener listener;
     private final List<MovieResult> movieResultsMaster;
 
     MovieAdapter(ItemClickedListener listener, List<MovieResult> movieResults) {
-        this.listner=listener;
+        this.listener =listener;
         this.movieResultsMaster=movieResults;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return MovieViewHolder.inflate(viewGroup,listner);
+        return MovieViewHolder.inflate(viewGroup, listener);
     }
 
     @Override

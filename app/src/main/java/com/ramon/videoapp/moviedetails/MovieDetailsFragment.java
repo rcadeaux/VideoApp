@@ -78,7 +78,7 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks, 
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         result = getMovieSelected();
-        adapter=new MovieDetailsAdapter(result,null,getChildFragmentManager(),this::itemClicked);
+        adapter=new MovieDetailsAdapter(result,null,getChildFragmentManager(),this);
         recyclerView.setAdapter(adapter);
         youtubeClient.getYoutubeVideos(this, result);
     }
@@ -98,7 +98,7 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks, 
     @Override
     public void youtubeVideoList(YoutubeResponse body) {
         if (BuildConfig.LOGGING_ENABLED){
-            Log.d("YOUTUBEVIDEO",body.getYoutubeItems().toString());
+            Log.d("YOUTUBE_VIDEO",body.getYoutubeItems().toString());
         }
         adapter.removeLoadingFooter();
         adapter.addYoutubeVideo(body.getYoutubeItems());

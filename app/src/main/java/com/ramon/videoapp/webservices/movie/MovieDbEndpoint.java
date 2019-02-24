@@ -6,7 +6,7 @@ public class MovieDbEndpoint {
         return "https://api.themoviedb.org/3/";
     }
 
-    public static String getMoiveImageEndpoint(String endpoint) {
+    public static String getMovieImageEndpoint(String endpoint) {
         return "https://image.tmdb.org/t/p/w500/"+endpoint;
     }
 }

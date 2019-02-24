@@ -2,10 +2,7 @@ package com.ramon.videoapp.di;
 
 import android.app.Application;
 
-import com.ramon.videoapp.webservices.configuration.InterceptorConfig;
 import com.ramon.videoapp.webservices.configuration.OkHttpManagerConfig;
-import com.ramon.videoapp.webservices.configuration.UnsafeHostnameVerifierConfig;
-import com.ramon.videoapp.webservices.configuration.UnsafeTrustManagerConfig;
 import com.ramon.videoapp.webservices.youtube.YoutubeApi;
 import com.ramon.videoapp.webservices.youtube.YoutubeClient;
 import com.ramon.videoapp.webservices.youtube.YoutubeEndpoint;
@@ -14,7 +11,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.CertificatePinner;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class FeaturedVideosViewHolder extends RecyclerView.ViewHolder {
+class FeaturedVideosViewHolder extends RecyclerView.ViewHolder {
 
     private final YoutubeItemClicked clickListener;
     @BindView(R.id.related_click_area)
@@ -29,7 +29,7 @@ public class FeaturedVideosViewHolder extends RecyclerView.ViewHolder {
     ImageView posterImage;
     private YoutubeItem youtubeItem;
 
-    public FeaturedVideosViewHolder(@NonNull View itemView, YoutubeItemClicked clickListener) {
+    private FeaturedVideosViewHolder(@NonNull View itemView, YoutubeItemClicked clickListener) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.clickListener = clickListener;

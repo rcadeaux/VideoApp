@@ -37,7 +37,7 @@ class MovieDetailsViewHolder extends RecyclerView.ViewHolder {
 
     void bind(MovieResult movieResult) {
         Picasso.get()
-                .load(MovieDbEndpoint.getMoiveImageEndpoint(movieResult.getPosterPath()))
+                .load(MovieDbEndpoint.getMovieImageEndpoint(movieResult.getPosterPath()))
                 .placeholder(R.drawable.ic_mood_black_24dp)
                 .error(R.drawable.image_download_failed)
                 .into(moviePoster);

@@ -1,7 +1,5 @@
 package com.ramon.videoapp.movie;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,8 +22,6 @@ import com.ramon.videoapp.webservices.movie.MovieDbClient;
 import com.ramon.videoapp.webservices.movie.callback.MovieListCallback;
 import com.ramon.videoapp.webservices.movie.models.DiscoverResults;
 import com.ramon.videoapp.webservices.movie.models.MovieResult;
-
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -66,11 +62,6 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -146,7 +137,7 @@ public class DiscoverMovieFragment extends Fragment implements MovieListCallback
                     .addToBackStack("detailsFrag")
                     .commit();
         } else {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext() != null ? getContext() : getActivity());
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext()!=null? getContext():getActivity());
             alertDialog.setMessage(getString(R.string.something_bad_happened));
             alertDialog.setPositiveButton(getString(R.string.positive_btn), (dialogInterface, i) -> dialogInterface.dismiss());
             alertDialog.create().show();

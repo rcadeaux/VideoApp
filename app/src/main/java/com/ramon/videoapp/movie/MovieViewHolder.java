@@ -22,7 +22,7 @@ class MovieViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.movie_image)
     ImageView movieImage;
     @BindView(R.id.movie_title)
-    TextView moiveTitle;
+    TextView movieTitleTextView;
 
     private final ItemClickedListener listener;
     private MovieResult movieResults;
@@ -33,16 +33,16 @@ class MovieViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this,itemView);
     }
 
-    static RecyclerView.ViewHolder inflate(ViewGroup viewGroup, ItemClickedListener listner) {
+    static RecyclerView.ViewHolder inflate(ViewGroup viewGroup, ItemClickedListener listener) {
         View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.discover_movie_vh,viewGroup,false);
-        return new MovieViewHolder(view,listner);
+        return new MovieViewHolder(view,listener);
     }
 
     void bind(MovieResult movieResult){
         this.movieResults=movieResult;
-        moiveTitle.setText(movieResult.getTitle());
+        movieTitleTextView.setText(movieResult.getTitle());
         Picasso.get()
-                .load(MovieDbEndpoint.getMoiveImageEndpoint(movieResult.getPosterPath()))
+                .load(MovieDbEndpoint.getMovieImageEndpoint(movieResult.getPosterPath()))
                 .placeholder(R.drawable.ic_mood_black_24dp)
                 .error(R.drawable.image_download_failed)
                 .into(movieImage);
