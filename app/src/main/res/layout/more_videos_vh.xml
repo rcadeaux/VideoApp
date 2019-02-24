@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/related_click_area"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp">
 
     <ImageView
         android:id="@+id/thumbnail_preview"
@@ -18,12 +20,5 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="TextView" />
-
-    <TextView
-        android:id="@+id/now_playing"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="Now Playing" />
 
 </LinearLayout>
