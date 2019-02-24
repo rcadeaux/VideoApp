@@ -32,6 +32,7 @@ class RelatedVideoViewHolder extends RecyclerView.ViewHolder {
         return new RelatedVideoViewHolder(view);
     }
 
+
     void bind(@NonNull final YoutubeItem youtubeItem, FragmentManager manager) {
         YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
 
@@ -49,8 +50,6 @@ class RelatedVideoViewHolder extends RecyclerView.ViewHolder {
 
                 }
             }
-
-            // YouTubeプレーヤーの初期化失敗
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult error) {
                 // YouTube error

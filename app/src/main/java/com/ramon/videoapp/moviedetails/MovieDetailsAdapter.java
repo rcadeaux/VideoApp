@@ -15,14 +15,18 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
     private static final int INFO_VH = 0;
     private static final int VIDEO_VH = 1;
     private static final int LOADING_VH = 2;
+    private static final int OTHER_VH = 3;
     private final FragmentManager manager;
+    private final YoutubeItemClicked clickListener;
     private List<YoutubeItem> youtubeList;
     private MovieResult movieResult;
+    YoutubeItem itemclicked = null;
 
-    MovieDetailsAdapter(MovieResult result, List<YoutubeItem> youtubeList, FragmentManager childFragmentManager) {
+    MovieDetailsAdapter(MovieResult result, List<YoutubeItem> youtubeList, FragmentManager childFragmentManager,YoutubeItemClicked youtubeItemClicked) {
         this.movieResult = result;
         this.youtubeList = youtubeList;
-        this.manager=childFragmentManager;
+        this.manager = childFragmentManager;
+        this.clickListener=youtubeItemClicked;
     }
 
     @NonNull
@@ -33,8 +37,10 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
             holder = MovieDetailsViewHolder.inflate(viewGroup);
         } else if (viewType == VIDEO_VH) {
             holder = RelatedVideoViewHolder.inflate(viewGroup);
-        } else {
+        } else if (viewType==LOADING_VH){
             holder = LoadingViewHolder.inflate(viewGroup);
+        }else {
+           holder= FeaturedVideosViewHolder.inflate(viewGroup,clickListener);
         }
         return holder;
 
@@ -45,9 +51,13 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
         if (viewHolder instanceof MovieDetailsViewHolder) {
             ((MovieDetailsViewHolder) viewHolder).bind(movieResult);
         } else if (viewHolder instanceof RelatedVideoViewHolder) {
-            ((RelatedVideoViewHolder) viewHolder).bind(youtubeList.get(position-1),manager);
-        } else {
+            ((RelatedVideoViewHolder) viewHolder).bind(itemclicked, manager);
+        } else if (viewHolder instanceof LoadingViewHolder){
             ((LoadingViewHolder) viewHolder).bind();
+        } else {
+            YoutubeItem item=youtubeList.get(position - 2);
+
+            ((FeaturedVideosViewHolder)viewHolder).bind(item,item.equals(itemclicked));
         }
 
     }
@@ -57,7 +67,7 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
     // otherwise its just the size of the loading viewholder and the details one
     @Override
     public int getItemCount() {
-        return youtubeList != null ? youtubeList.size() + 1 : 2;
+        return youtubeList != null ? youtubeList.size() + 2 : 2;
     }
 
     @Override
@@ -67,26 +77,38 @@ public class MovieDetailsAdapter extends RecyclerView.Adapter {
         }
 
         if (youtubeList != null) {
-            return VIDEO_VH;
+            if (position == 1) {
+                return VIDEO_VH;
+            } else {
+                return OTHER_VH;
+            }
+
         } else {
-            youtubeList= new ArrayList<>();
+            youtubeList = new ArrayList<>();
             youtubeList.add(new YoutubeItem());
             return LOADING_VH;
         }
     }
 
-     void addYoutubeVideo(List<YoutubeItem> items){
+    void addYoutubeVideo(List<YoutubeItem> items) {
         youtubeList.addAll(items);
+        itemclicked = items.get(0);
         notifyDataSetChanged();
     }
 
-     void removeLoadingFooter(){
+    void removeLoadingFooter() {
         youtubeList.remove(0);
         notifyItemRemoved(1);
 
     }
 
-     void showError() {
+    void showError() {
+
+    }
+
+    public void refresh(YoutubeItem item) {
+        itemclicked = item;
+        notifyDataSetChanged();
 
     }
 }

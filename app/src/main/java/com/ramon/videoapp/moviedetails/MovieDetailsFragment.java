@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.youtube.player.YouTubePlayerFragment;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.gson.Gson;
 import com.ramon.videoapp.BaseApplication;
 import com.ramon.videoapp.BuildConfig;
@@ -20,6 +18,7 @@ import com.ramon.videoapp.R;
 import com.ramon.videoapp.webservices.movie.models.MovieResult;
 import com.ramon.videoapp.webservices.youtube.YoutubeClient;
 import com.ramon.videoapp.webservices.youtube.callbacks.YoutubeCallbacks;
+import com.ramon.videoapp.webservices.youtube.models.YoutubeItem;
 import com.ramon.videoapp.webservices.youtube.models.YoutubeResponse;
 
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +28,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
+public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks, YoutubeItemClicked {
 
     @Inject
     YoutubeClient youtubeClient;
@@ -79,7 +78,7 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         result = getMovieSelected();
-        adapter=new MovieDetailsAdapter(result,null,getChildFragmentManager());
+        adapter=new MovieDetailsAdapter(result,null,getChildFragmentManager(),this::itemClicked);
         recyclerView.setAdapter(adapter);
         youtubeClient.getYoutubeVideos(this, result);
     }
@@ -111,5 +110,10 @@ public class MovieDetailsFragment extends Fragment implements YoutubeCallbacks {
         adapter.removeLoadingFooter();
         adapter.showError();
 
+    }
+
+    @Override
+    public void itemClicked(YoutubeItem youtubeItem) {
+        adapter.refresh(youtubeItem);
     }
 }
